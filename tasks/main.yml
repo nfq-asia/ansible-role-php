@@ -1,2 +1,9 @@
 ---
 # tasks file for ansible-role-php
+- include: install.yml
+  tags:
+    - install
+
+- include: configure.yml
+  tags:
+    - config

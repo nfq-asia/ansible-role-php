@@ -1,0 +1,42 @@
+---
+- name: Install software-properties-common for PPA
+  apt:
+    name: software-properties-common
+    state: present
+
+- name: Add ondrej PPA
+  apt_repository:
+    repo: ppa:ondrej/php
+
+- name: Install php{{ php_version }} packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - "php{{ php_version }}-common"
+      - "php{{ php_version }}-cli"
+      - "php{{ php_version }}-fpm"
+      - "php{{ php_version }}-gd"
+      - "php{{ php_version }}-curl"
+      - "php{{ php_version }}-json"
+      - "php{{ php_version }}-opcache"
+      - "php{{ php_version }}-xml"
+      - "php{{ php_version }}-mbstring"
+      - "php{{ php_version }}-mcrypt"
+      - "php{{ php_version }}-bcmath"
+      - "php{{ php_version }}-tidy"
+      - "php{{ php_version }}-zip"
+      - "php{{ php_version }}-bz2"
+      - "php{{ php_version }}-mysql"
+      - "php{{ php_version }}-intl"
+      - "php{{ php_version }}-imap"
+      - "php{{ php_version }}-readline"
+      - "php-apcu"
+      - "php-mongo"
+      - "php-mongodb"
+      - "php-redis"
+      - "php-xdebug"
+      - "dh-php"
+  notify:
+    - start php-fpm service
