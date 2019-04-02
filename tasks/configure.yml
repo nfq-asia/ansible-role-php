@@ -1,32 +1,18 @@
 ---
 - name: Backup current configs on php
   block:
-
   - name: Backup - make directory for backup at /etc/php/{{ php_version }}/.backup
     file:
       path: /etc/php/{{ php_version }}/.backup
       state: directory
-
   - name: Backup - create specific backup dir for this running
     file:
       path: /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}
       state: directory
-
-  - name: Backup - create specific backup dir for php cli
-    file:
-      path: /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/cli
-      state: directory
-
-  - name: Backup - create specific backup dir for php fpm
-    file:
-      path: /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/fpm
-      state: directory
-
   - name: Backup - backing up php cli
-    command: cp /etc/php/{{ php_version }}/cli/php.ini /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/cli/php.ini
-
+    command: cp /etc/php/{{ php_version }}/cli/php.ini /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/php.ini.cli
   - name: Backup - backing up php fpm
-    command: cp /etc/php/{{ php_version }}/fpm/pool.d/www.conf /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/fpm/www.conf
+    command: cp /etc/php/{{ php_version }}/fpm/pool.d/www.conf /etc/php/{{ php_version }}/.backup/{{ ansible_date_time.iso8601 }}/www.conf.fpm
 
 - name: Config log directory at {{ php_log_dir }}
   file:
