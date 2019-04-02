@@ -36,7 +36,15 @@ The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli
       - _advanced_:
           - Flexible configure by editing config files on this repo
           - `php.ini` and `www.conf` are pure configuration file
-          - Does not support ansible variable template (because we have over 100 LoC for each config) 
+          - Does not support ansible variable template (because we have over 100 LoC for each config)
+          - Support checking php-fpm status by using `/php_fpm_status`
+          ```
+          SCRIPT_NAME=/php_fpm_status SCRIPT_FILENAME=/php_fpm_status QUERY_STRING=full REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
+          ```
+          - Support checking php-fpm ping by using `/php_fpm_ping`
+          ```
+          SCRIPT_NAME=/php_fpm_ping SCRIPT_FILENAME=/php_fpm_ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
+          ```
     - **Monitoring**:
       - _default_: discuss in monitoring parts
       - _optional_: discuss in monitoring parts

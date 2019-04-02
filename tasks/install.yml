@@ -1,8 +1,12 @@
 ---
-- name: Install software-properties-common for PPA
+- name: Install essential packages for preparing php
   apt:
-    name: software-properties-common
+    name: "{{ packages }}"
     state: present
+  vars:
+    packages:
+    - software-properties-common # For adding PPA
+    - libfcgi0ldbl               # For direct request to php-fpm status
 
 - name: Add ondrej PPA
   apt_repository:
@@ -23,7 +27,6 @@
       - "php{{ php_version }}-opcache"
       - "php{{ php_version }}-xml"
       - "php{{ php_version }}-mbstring"
-      - "php{{ php_version }}-mcrypt"
       - "php{{ php_version }}-bcmath"
       - "php{{ php_version }}-tidy"
       - "php{{ php_version }}-zip"
@@ -38,5 +41,6 @@
       - "php-redis"
       - "php-xdebug"
       - "dh-php"
+#     - "php{{ php_version }}-mcrypt" Dropped mcrypt because of Deprecated https://www.php.net/manual/en/migration71.deprecated.php#migration71.deprecated.ext-mcrypt
   notify:
     - start php-fpm service

@@ -1,3 +1,9 @@
 ---
 # defaults file for ansible-role-php
-php_version: 7.2
+
+# Support 7.1, 7.2 and 7.3
+# Recommend: 7.2 as default of ubuntu 18.04 minimal
+php_version: "7.2"
+php_log_dir: "/var/log/php"
+php_fpm_listen: "127.0.0.1:9000"
+
