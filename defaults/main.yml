@@ -5,5 +5,26 @@
 # Recommend: 7.2 as default of ubuntu 18.04 minimal
 php_version: "7.2"
 php_log_dir: "/var/log/php"
-php_fpm_listen: "127.0.0.1:9000"
 
+php_fpm_listen: "127.0.0.1:9000"
+php_fpm_max_children: "5"
+php_fpm_start_servers: "2"
+php_fpm_min_spare_servers: "1"
+php_fpm_max_spare_servers: "3"
+php_fpm_process_idle_timeout: "10s"
+php_fpm_max_requests: "1000"
+
+php_fpm_status_path: "/php_fpm_status"
+php_fpm_ping_path: "/php_fpm_ping"
+
+php_fpm_request_slowlog_timeout: "3"
+php_fpm_request_slowlog_trace_depth: "20"
+
+php_fpm_clear_env: "no"
+
+php_fpm_max_execution_time: "60"
+php_fpm_max_input_time: "120"
+php_fpm_memory_limit: "512M"
+php_fpm_post_max_size: "64M"
+php_fpm_upload_max_filesize: "64M"
+php_fpm_max_file_uploads: "20"

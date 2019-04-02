@@ -6,29 +6,33 @@ listen.owner = www-data
 listen.group = www-data
 
 pm = dynamic
-pm.max_children = 5
-pm.start_servers = 2
-pm.min_spare_servers = 1
-pm.max_spare_servers = 3
-pm.process_idle_timeout = 10s
-pm.max_requests = 500
+pm.max_children = {{ php_fpm_max_children }}
+pm.start_servers = {{ php_fpm_start_servers }}
+pm.min_spare_servers = {{ php_fpm_min_spare_servers }}
+pm.max_spare_servers = {{ php_fpm_max_spare_servers }}
+pm.process_idle_timeout = {{ php_fpm_process_idle_timeout }}
+pm.max_requests = {{ php_fpm_max_requests }}
 
-pm.status_path = /php_fpm_status
-ping.path = /php_fpm_ping
+pm.status_path = {{ php_fpm_status_path }}
+ping.path = {{ php_fpm_ping_path }}
 ping.response = pong
 
 access.log = {{ php_log_dir }}/$pool.access.log
 access.format = "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
 
 slowlog = {{ php_log_dir }}/$pool.slow.log
-request_slowlog_timeout = 3
-request_slowlog_trace_depth = 20
+request_slowlog_timeout = {{ php_fpm_request_slowlog_timeout }}
+request_slowlog_trace_depth = {{ php_fpm_request_slowlog_trace_depth }}
 
-clear_env = no
+clear_env = {{ php_fpm_clear_env }}
 
 catch_workers_output = yes
-php_admin_value[upload_max_filesize] = 32M
-php_admin_value[memory_limit] = 1024M
-php_admin_value[session.save_path] = /tmp
+
+php_admin_value[max_execution_time] = {{ php_fpm_max_execution_time }}
+php_admin_value[max_input_time] = {{ php_fpm_max_input_time }}
+php_admin_value[memory_limit] = {{ php_fpm_memory_limit }}
+php_admin_value[post_max_size] = {{ php_fpm_post_max_size }}
+php_admin_value[upload_max_filesize] = {{ php_fpm_upload_max_filesize }}
+php_admin_value[max_file_uploads] = {{ php_fpm_max_file_uploads }}
 php_admin_value[error_log] = {{ php_log_dir }}/$pool.error.log
-php_admin_flag[log_errors] = on
+php_admin_value[log_errors] = on
