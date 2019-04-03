@@ -5,8 +5,8 @@
     state: present
   vars:
     packages:
-    - software-properties-common # For adding PPA
-    - libfcgi0ldbl               # For direct request to php-fpm status
+      - software-properties-common    # For adding PPA
+      - libfcgi0ldbl                  # For direct request to php-fpm status
 
 - name: Add ondrej PPA
   apt_repository:
@@ -41,6 +41,8 @@
       - "php-redis"
       - "php-xdebug"
       - "dh-php"
-#     - "php{{ php_version }}-mcrypt" Dropped mcrypt because of Deprecated https://www.php.net/manual/en/migration71.deprecated.php#migration71.deprecated.ext-mcrypt
+      # - "php{{ php_version }}-mcrypt"
+      # Dropped mcrypt because of Deprecated
+      # https://www.php.net/manual/en/migration71.deprecated.php#migration71.deprecated.ext-mcrypt
   notify:
     - start php-fpm service

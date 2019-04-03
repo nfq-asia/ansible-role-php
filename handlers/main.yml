@@ -4,16 +4,16 @@
   systemd:
     name: php{{ php_version }}-fpm
     state: started
-    enabled: yes
+    enabled: true
 
 - name: restart php-fpm service
   systemd:
     name: php{{ php_version }}-fpm
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
 
 - name: reload php-fpm service
   systemd:
     name: php{{ php_version }}-fpm
-    daemon_reload: yes
+    daemon_reload: true
     state: reloaded

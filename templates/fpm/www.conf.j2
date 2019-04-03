@@ -22,7 +22,6 @@ access.format = "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
 
 slowlog = {{ php_log_dir }}/$pool.slow.log
 request_slowlog_timeout = {{ php_fpm_request_slowlog_timeout }}
-request_slowlog_trace_depth = {{ php_fpm_request_slowlog_trace_depth }}
 
 clear_env = {{ php_fpm_clear_env }}
 
