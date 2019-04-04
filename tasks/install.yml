@@ -35,6 +35,7 @@
       - "php{{ php_version }}-intl"
       - "php{{ php_version }}-imap"
       - "php{{ php_version }}-readline"
+      - "php{{ php_version }}-soap"
       - "php-apcu"
       - "php-mongo"
       - "php-mongodb"

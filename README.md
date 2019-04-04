@@ -45,6 +45,8 @@ The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli
           ```
           SCRIPT_NAME=/php_fpm_ping SCRIPT_FILENAME=/php_fpm_ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
           ```
+          - Support php-fpm access log at `/var/log/php/www.access.log`
+          - Support php-fpm slow log at `/var/log/php/www.slow.log`
     - **Monitoring**:
       - _default_: discuss in monitoring parts
       - _optional_: discuss in monitoring parts
