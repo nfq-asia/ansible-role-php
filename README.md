@@ -34,9 +34,11 @@ The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli
           - Running by user `www-data` as default
           - internal connection via `127.0.0.1:9000` as default
       - _advanced_:
+          - List of php packages is defined in variable as a list
           - Flexible configure by editing config files on this repo
-          - `php.ini` and `www.conf` are pure configuration file
-          - Does not support ansible variable template (because we have over 100 LoC for each config)
+          - With php cli: does not support ansible variable template for `cli/php.ini`
+          - With php fpm: support ansible template, using one config at `fpm/pool.d/www.conf.j2` (configured to override these original configs)
+          - `php.ini` and `php-fpm.conf` are still use original configuration files
           - Support checking php-fpm status by using `/php_fpm_status`
           ```
           SCRIPT_NAME=/php_fpm_status SCRIPT_FILENAME=/php_fpm_status QUERY_STRING=full REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
