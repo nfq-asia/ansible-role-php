@@ -4,19 +4,18 @@
 
 The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli, related extensions and tools.
 
-  - OS base:  Ubuntu 18.04 minimal server with no modifications.
-  - PHP: 7.2 (latest version)
-  - PHP-FPM: 7.2 (based on php as above)
-  - PHP extensions (based on php as above)
-  - Composer: 1.8.4 (latest version)
+  - OS base: Ubuntu 18.04 minimal server with no modifications.
+  - PHP: support 7.1, 7.2 and 7.3
+  - PHP-FPM: based on php as above
+  - PHP extensions: based on php as above
 
 ### B. Specifications
 
 1. Input
     - List of related packages/extensions
     - Detail config files for both cli and fpm:
-      - Minimal version of `php.ini` in this repo for overriding default `/etc/php/7.1/fpm/php.ini` file and `/etc/php/7.1/cli/php.ini` file
-      - Minimal version of `www.conf` in this repo for overiding default `/etc/php/7.1/fpm/pool.d/www.conf` file
+      - Template `php.ini.j2` in this repo for overriding default `/etc/php/7.1/cli/php.ini` file
+      - Template `www.conf.j2` in this repo for overiding default `/etc/php/7.1/fpm/pool.d/www.conf` file, also configured for overriding `php.ini` and `php-fpm.conf`
 
 2. Prerequisites
     - An EC2 instance with a static IP mapped to a hostname
