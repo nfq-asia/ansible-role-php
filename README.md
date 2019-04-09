@@ -1,4 +1,4 @@
-## Ansible PHP 
+## Ansible PHP
 
 ### A. Purpose
 
@@ -54,7 +54,40 @@ The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli
 
 ---
 ### Defaults
+* Available variables are defined with default values ( `default/main.yml`)
+* `php_version` - Default php version is `7.2`.
 ### Required variables
+* `php_packages` list
+
+```
+- "php{{ php_version }}-common"
+- "php{{ php_version }}-cli"
+- "php{{ php_version }}-fpm"
+- "php{{ php_version }}-gd"
+- "php{{ php_version }}-curl"
+- "php{{ php_version }}-json"
+- "php{{ php_version }}-opcache"
+- "php{{ php_version }}-xml"
+- "php{{ php_version }}-mbstring"
+- "php{{ php_version }}-bcmath"
+- "php{{ php_version }}-tidy"
+- "php{{ php_version }}-zip"
+- "php{{ php_version }}-bz2"
+- "php{{ php_version }}-mysql"
+- "php{{ php_version }}-intl"
+- "php{{ php_version }}-imap"
+- "php{{ php_version }}-readline"
+- "php{{ php_version }}-soap"
+- "php-apcu"
+- "php-mongo"
+- "php-mongodb"
+- "php-redis"
+- "php-xdebug"
+- "dh-php"
+```
 ### Optional variables
 ### Tags
+* `install` - install php services and extensions.
+* `configure` - config php services.
 ### Notes
+* This role also support 7.1 and 7.3.
