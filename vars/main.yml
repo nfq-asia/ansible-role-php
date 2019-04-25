@@ -1,2 +1,6 @@
 ---
 # vars file for ansible-role-php
+php_default_packages:
+  - "php{{ php_version }}-common"
+  - "php{{ php_version }}-cli"
+  - "php{{ php_version }}-fpm"

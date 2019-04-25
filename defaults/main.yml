@@ -6,9 +6,6 @@
 php_version: "7.2"
 
 php_packages:
-  - "php{{ php_version }}-common"
-  - "php{{ php_version }}-cli"
-  - "php{{ php_version }}-fpm"
   - "php{{ php_version }}-gd"
   - "php{{ php_version }}-curl"
   - "php{{ php_version }}-json"
@@ -30,10 +27,6 @@ php_packages:
   - "php-redis"
   - "php-xdebug"
   - "dh-php"
-
-  # - "php{{ php_version }}-mcrypt"
-  # Dropped mcrypt because of Deprecated
-  # https://www.php.net/manual/en/migration71.deprecated.php#migration71.deprecated.ext-mcrypt
 
 php_log_dir: "/var/log/php"
 

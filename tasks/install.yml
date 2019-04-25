@@ -14,7 +14,7 @@
 
 - name: Install php{{ php_version }} packages
   apt:
-    name: "{{ php_packages }}"
+    name: "{{ php_default_packages + php_packages }}"
     state: present
   notify:
     - start php-fpm service
