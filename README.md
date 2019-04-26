@@ -1,93 +1,90 @@
-## Ansible PHP
+# Ansible PHP 
 
-### A. Purpose
+## Description
+* The role to install and manage PHP, PHP-FPM, PHP cli, related extensions and tools
 
-The task is to write an Ansible role to install and manage PHP, PHP-FPM, PHP cli, related extensions and tools.
+## Prerequisites
+* An EC2 instance with a static IP mapped to a hostname, running Ubuntu 18.10
 
-  - OS base: Ubuntu 18.04 minimal server with no modifications.
-  - PHP: support 7.1, 7.2 and 7.3
-  - PHP-FPM: based on php as above
-  - PHP extensions: based on php as above
+## Required variables
 
-### B. Specifications
+* `php_packages` is the list of additional packages to install (through apt):
 
-1. Input
-    - List of related packages/extensions
-    - Detail config files for both cli and fpm:
-      - Template `php.ini.j2` in this repo for overriding default `/etc/php/7.1/cli/php.ini` file
-      - Template `www.conf.j2` in this repo for overiding default `/etc/php/7.1/fpm/pool.d/www.conf` file, also configured for overriding `php.ini` and `php-fpm.conf`
+```yaml
+php_packages:
+  - "php{{ php_version }}-gd"
+  - "php{{ php_version }}-curl"
+  - "php{{ php_version }}-json"
+  - "php{{ php_version }}-opcache"
+  - "php{{ php_version }}-xml"
+  - "php{{ php_version }}-mbstring"
+  - "php{{ php_version }}-bcmath"
+  - "php{{ php_version }}-tidy"
+  - "php{{ php_version }}-zip"
+  - "php{{ php_version }}-bz2"
+  - "php{{ php_version }}-mysql"
+  - "php{{ php_version }}-intl"
+  - "php{{ php_version }}-imap"
+  - "php{{ php_version }}-readline"
+  - "php{{ php_version }}-soap"
+  - "php-apcu"
+  - "php-mongo"
+  - "php-mongodb"
+  - "php-redis"
+  - "php-xdebug"
+  - "dh-php"
+```
 
-2. Prerequisites
-    - An EC2 instance with a static IP mapped to a hostname
+## Defaults
+* `php_version`: Default php version is `7.2`.
+* `php_log_dir: "/var/log/php"`: Default log path
+* `php_fpm_listen: "127.0.0.1:9000"`: Default listening port
 
-3. Output
-    - **Connectivity**:
-      - _external_: no external connection
-      - _internal_: within AWS private subnet:
-          - other services like nginx will connect to PHP-FPM via `127.0.0.1:9000` as defaut
-          - not support PHP-FPM socket type
-          - can flexible run PHP cli `bin/console` command inside this VM
-    - **Configuration**:
-      - _default_:
-          - all default configurations as the original of php7.2 & php-fpm but minimal version (removed some useless comment lines)
-          - Running by user `www-data` as default
-          - internal connection via `127.0.0.1:9000` as default
-      - _advanced_:
-          - List of php packages is defined in variable as a list
-          - Flexible configure by editing config files on this repo
-          - With php cli: does not support ansible variable template for `cli/php.ini`
-          - With php fpm: support ansible template, using one config at `fpm/pool.d/www.conf.j2` (configured to override these original configs)
-          - `php.ini` and `php-fpm.conf` are still use original configuration files
-          - Support checking php-fpm status by using `/php_fpm_status`
-          ```
-          SCRIPT_NAME=/php_fpm_status SCRIPT_FILENAME=/php_fpm_status QUERY_STRING=full REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
-          ```
-          - Support checking php-fpm ping by using `/php_fpm_ping`
-          ```
-          SCRIPT_NAME=/php_fpm_ping SCRIPT_FILENAME=/php_fpm_ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
-          ```
-          - Support php-fpm access log at `/var/log/php/www.access.log`
-          - Support php-fpm slow log at `/var/log/php/www.slow.log`
-    - **Monitoring**:
-      - _default_: discuss in monitoring parts
-      - _optional_: discuss in monitoring parts
-
----
-### Defaults
-* Available variables are defined with default values ( `default/main.yml`)
-* `php_version` - Default php version is `7.2`.
-### Required variables
-* `php_packages` list
+PHP-FPM pool parameters defaults are listed here, but should but tuned depending on real usage:
 
 ```
-- "php{{ php_version }}-common"
-- "php{{ php_version }}-cli"
-- "php{{ php_version }}-fpm"
-- "php{{ php_version }}-gd"
-- "php{{ php_version }}-curl"
-- "php{{ php_version }}-json"
-- "php{{ php_version }}-opcache"
-- "php{{ php_version }}-xml"
-- "php{{ php_version }}-mbstring"
-- "php{{ php_version }}-bcmath"
-- "php{{ php_version }}-tidy"
-- "php{{ php_version }}-zip"
-- "php{{ php_version }}-bz2"
-- "php{{ php_version }}-mysql"
-- "php{{ php_version }}-intl"
-- "php{{ php_version }}-imap"
-- "php{{ php_version }}-readline"
-- "php{{ php_version }}-soap"
-- "php-apcu"
-- "php-mongo"
-- "php-mongodb"
-- "php-redis"
-- "php-xdebug"
-- "dh-php"
+php_fpm_max_children: "5"
+php_fpm_start_servers: "2"
+php_fpm_min_spare_servers: "1"
+php_fpm_max_spare_servers: "3"
+php_fpm_process_idle_timeout: "10s"
+php_fpm_max_requests: "1000"
+
+php_fpm_status_path: "/php_fpm_status"
+php_fpm_ping_path: "/php_fpm_ping"
+
+php_fpm_request_slowlog_timeout: "3"
+
+php_fpm_clear_env: "no"
+
+php_fpm_max_execution_time: "60"
+php_fpm_max_input_time: "120"
+php_fpm_memory_limit: "512M"
+php_fpm_post_max_size: "64M"
+php_fpm_upload_max_filesize: "64M"
+php_fpm_max_file_uploads: "20"
 ```
-### Optional variables
-### Tags
+
+## Optional variables
+
+n/a 
+
+## Tags
 * `install` - install php services and extensions.
 * `configure` - config php services.
-### Notes
+## Notes
+
+* The role only defaults to use TCP/IP for FPM traffic
+* Support checking php-fpm status by using `/php_fpm_status`:
+
+```
+SCRIPT_NAME=/php_fpm_status SCRIPT_FILENAME=/php_fpm_status QUERY_STRING=full REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
+```
+
+* Support checking php-fpm ping by using `/php_fpm_ping`
+
+```
+SCRIPT_NAME=/php_fpm_ping SCRIPT_FILENAME=/php_fpm_ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
+```
+
 * This role also support 7.1 and 7.3.
